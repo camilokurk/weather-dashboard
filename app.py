@@ -9,7 +9,7 @@ def index():
 
 @app.route("/weather")
 def weather():
-    city = request.args.get("city", "Buenos Aires")
+    city = request.args.get("city")
 
     geo_url = (
         "https://geocoding-api.open-meteo.com/v1/search"
@@ -58,6 +58,34 @@ def autocomplete():
             options.append(f"{name}, {country}")
         
     return jsonify(options)
+
+@app.route("/cities")
+def cities():
+    query = request.args.get("q")
+
+    if not query or len(query) < 3:
+        return jsonify([])
+    
+    geo_url = (
+        "https://geocoding-api.open-meteo.com/v1/search"
+        f"?name={query}&count=5&language=es&format=json"
+    )
+
+    response = requests.get(geo_url)
+    data = response.json()
+
+    if "results" not in data:
+        return jsonify([])
+    
+    cities = []
+    for item in data ["results"]:
+        cities.append({
+            "name": item["name"],
+            "country": item.get("country", ""),
+            "lat": item["latitude"],
+            "lon": item["longitude"]
+        })
+    return jsonify(cities)
 
 if __name__ == "__main__":
     app.run(debug=True)

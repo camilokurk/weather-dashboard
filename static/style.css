@@ -13,13 +13,20 @@ body {
 }
 
 .app {
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     max-width: 420px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     text-align: center;
+    gap: 1rem;
+}
+
+.select-city {
+    background: #f9fafb;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-top: 1rem;
+    box-shadow: inset 0 0 0 1px #e5e7eb;
 }
 
 h1 {
@@ -30,6 +37,8 @@ h1 {
     display: flex;
     gap: 0.5rem;
     margin-bottom: 1.5rem;
+    
+    
 }
 
 .search input {
@@ -37,16 +46,18 @@ h1 {
     padding: 0.6rem;
     border-radius: 6px;
     border: 1px solid #ccc;
-    font-size: 1rem;
+    font-size: 1.2rem;
+    min-height: 50px;
 }
 
 .search button {
     padding: 0.6rem 1rem;
     border-radius: 6px;
     border: none;
-    background: #4f46e5;
+    background: linear-gradient(135deg, #928deb, #4f46e5);
     color: white;
     cursor: pointer;
+    min-height: 40px;
 }
 
 .search button:hover {
@@ -68,7 +79,7 @@ h1 {
 }
 
 .suggestions {
-    background: white;
+    background: linear-gradient(135deg, #cccccc, #acb6e5);
     border-radius: 6px;
     margin-top: 0.25rem;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
@@ -93,4 +104,36 @@ h1 {
 
 .input-wrapper.active .suggestions {
     max-height: 200px;
+}
+
+.temperature {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+
+.widget {
+    background: #f9fafb;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-top: 1rem;
+    box-shadow: inset 0 0 0 1px #e5e7eb;
+}
+
+.widget h2 {
+    margin: 0;
+    font-size: 1rem;
+    color: #6b7280;
+}
+
+.widget .value {
+    margin-top: 0.5rem;
+    font-size: 2rem;
+    font-weight: bold;
 }

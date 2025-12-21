@@ -7,20 +7,35 @@
 </head>
 <body>
     <div class="app">
-        <h1>Weather Dashboard</h1>
 
-        <div class="search">
-            <div class="input-wrapper">
-                <input id="city" type="text" placeholder="Ciudad">
-                <div id="suggestions" class="suggestions"></div>
+        <div class="select-city">
+            <h1>Weather Dashboard</h1>
+
+            <div class="search">
+                <div class="input-wrapper">
+                    <input id="city" type="text" placeholder="Ciudad">
+                    <div id="suggestions" class="suggestions"></div>
+                </div>
+                <button id="load-weather">Buscar</button>
             </div>
-            <button id="load-weather">Buscar</button>
+
+            <p id="temperature" class="result">
+                Ingrese una ciudad para ver el clima.
+            </p>
         </div>
 
-        <p id="temperature" class="result">
-            Ingrese una ciudad para ver el clima.
-        </p>
+        <div class="temperature">
+
+            <div class="widget">
+                <h2>Temperatura</h2>
+                <p class="value">-- °C</p>
+            </div>
+
+        </div>
+        
     </div>
+
+    
 
     <script>
         const button = document.getElementById("load-weather");
@@ -40,7 +55,7 @@
                     }
 
                     const temp = data.current_weather.temperature;
-                    tempText.textContent = `Temperatura en ${city}: ${temp} °C`;
+                    tempText.textContent = `${city}: ${temp} °C`;
                 })
                 .catch(error => {
                     console.error(error);
@@ -87,7 +102,7 @@
                 });
         });
 
-// ocultar al presionar Enter
+
 cityInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
         button.click();
@@ -96,9 +111,9 @@ cityInput.addEventListener("keydown", (event) => {
     }
 });
 
-// ocultar al perder foco
+
 cityInput.addEventListener("blur", () => {
-    setTimeout(() => { // timeout para que el click en la sugerencia funcione
+    setTimeout(() => { 
         suggestionsBox.innerHTML = "";
         inputWrapper.classList.remove("active");
     }, 100);

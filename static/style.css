@@ -3,42 +3,75 @@
     font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
+.size-1x1 {
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+.size-1x2 {
+    grid-column: span 1;
+    grid-row: span 2;
+}
+
+.size-2x1 {
+    grid-column: span 2;
+    grid-row: span 1;
+}
+
+.size-2x2 {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.size-3x1 {
+    grid-column: span 3;
+    grid-row: span 1;
+}
+
+
 body {
     margin: 0;
     min-height: 100vh;
     background: linear-gradient(135deg, #353636, #acb6e5);
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+}
+
+#title {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    color: black;
+    align-self: center;
 }
 
 .app {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-auto-columns: 250px;
+    grid-auto-rows: 250px;
     width: 100%;
-    max-width: 420px;
-    text-align: center;
+    max-width: 800px;
     gap: 1rem;
 }
 
+/* TARJETA SELECT CITY */
 .select-city {
     background: #f9fafb;
-    border-radius: 12px;
+    border-radius: 20px;
     padding: 1rem;
-    margin-top: 1rem;
     box-shadow: inset 0 0 0 1px #e5e7eb;
-}
-
-h1 {
-    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .search {
     display: flex;
     gap: 0.5rem;
-    margin-bottom: 1.5rem;
-    
-    
+    margin-bottom: 1rem;
 }
 
 .search input {
@@ -57,7 +90,6 @@ h1 {
     background: linear-gradient(135deg, #928deb, #4f46e5);
     color: white;
     cursor: pointer;
-    min-height: 40px;
 }
 
 .search button:hover {
@@ -68,6 +100,7 @@ h1 {
     font-size: 1.1rem;
 }
 
+/* AUTOCOMPLETE */
 .input-wrapper {
     position: relative;
     flex: 1;
@@ -88,6 +121,14 @@ h1 {
     transition: max-height 0.3s ease;
 }
 
+.input-wrapper.active {
+    max-height: 300px;
+}
+
+.input-wrapper.active .suggestions {
+    max-height: 200px;
+}
+
 .suggestion {
     padding: 0.5rem;
     cursor: pointer;
@@ -97,43 +138,43 @@ h1 {
     background: #f0f0f0;
 }
 
-
-.input-wrapper.active {
-    max-height: 300px;
-}
-
-.input-wrapper.active .suggestions {
-    max-height: 200px;
-}
-
+/* TARJETA TEMPERATURA */
 .temperature {
+    background: white;
+    padding: 0.2rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     display: flex;
     flex-direction: column;
-    background: white;
-    padding: 2rem;
-    border-radius: 20px;
-    width: 100%;
-    max-width: 420px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    justify-content: center;
+    align-items: center;
     text-align: center;
 }
 
 .widget {
     background: #f9fafb;
     border-radius: 12px;
-    padding: 1rem;
-    margin-top: 1rem;
     box-shadow: inset 0 0 0 1px #e5e7eb;
-}
-
-.widget h2 {
-    margin: 0;
-    font-size: 1rem;
-    color: #6b7280;
+    padding: 1rem;
 }
 
 .widget .value {
-    margin-top: 0.5rem;
+    font-size: 3rem;
+    margin: 0.5rem;
+    margin-left: 0rem;
+    justify-self: left;
+}
+
+.emoji {
     font-size: 2rem;
-    font-weight: bold;
+    margin: 0.5rem;
+    margin-left: 0rem;
+    justify-self: left;
+}
+
+.range {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    font-size: 1.2rem;
 }

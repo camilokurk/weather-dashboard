@@ -2,14 +2,17 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Wheather Dashboard</title>
+    <title>Weather Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+
+    <h1 id="title">Weather Dashboard</h1>
+
     <div class="app">
 
-        <div class="select-city">
-            <h1>Weather Dashboard</h1>
+        <!-- TARJETA: SELECCIÓN DE CIUDAD -->
+        <div class="select-city size-2x1">
 
             <div class="search">
                 <div class="input-wrapper">
@@ -24,47 +27,61 @@
             </p>
         </div>
 
+        <!-- TARJETA: WIDGET TEMPERATURA -->
         <div class="temperature">
-
             <div class="widget">
-                <h2>Temperatura</h2>
-                <p class="value">-- °C</p>
+                <p class="value">--°</p>
+                <p class="emoji"></p>
+                <p class="range">
+                    <span class="max">Máx: -- °C</span>
+                    <span class="min">Mín: -- °C</span>
+                </p>
             </div>
-
         </div>
-        
-    </div>
 
-    
+    </div>
 
     <script>
         const button = document.getElementById("load-weather");
-        const tempText = document.getElementById("temperature");
         const cityInput = document.getElementById("city");
-        const suggestions = document.getElementById("suggestions");
+        const suggestionsBox = document.getElementById("suggestions");
+        const inputWrapper = document.querySelector(".input-wrapper");
 
-        button.addEventListener("click", () => {
+        const tempValue = document.querySelector(".value");
+        const tempEmoji = document.querySelector(".emoji");
+        const tempMax = document.querySelector(".max");
+        const tempMin = document.querySelector(".min");
+
+        function loadWeather() {
             const city = cityInput.value;
 
             fetch(`/weather?city=${encodeURIComponent(city)}`)
-                .then(response => response.json())
+                .then(res => res.json())
                 .then(data => {
                     if (data.error) {
-                        tempText.textContent = data.error;
+                        tempValue.textContent = data.error;
                         return;
                     }
 
                     const temp = data.current_weather.temperature;
-                    tempText.textContent = `${city}: ${temp} °C`;
-                })
-                .catch(error => {
-                    console.error(error);
-                    tempText.textContent = "Error al cargar el clima.";
-                });
-        });
+                    const max = data.daily.temperature_2m_max[0];
+                    const min = data.daily.temperature_2m_min[0];
 
-        const suggestionsBox = document.getElementById("suggestions");
-        const inputWrapper = document.querySelector(".input-wrapper");
+                    let emoji = "";
+                    if (temp > 25) emoji = "☀️";
+                    else if (temp < 18) emoji = "❄️";
+
+                    tempValue.textContent = `${temp}°`;
+                    tempEmoji.textContent = `${emoji}`;
+                    tempMax.textContent = `Máx: ${max}°`;
+                    tempMin.textContent = `Mín: ${min}°`;
+                })
+                .catch(() => {
+                    tempValue.textContent = "Error al cargar el clima";
+                });
+        }
+
+        button.addEventListener("click", loadWeather);
 
         cityInput.addEventListener("input", () => {
             const query = cityInput.value;
@@ -79,6 +96,7 @@
                 .then(res => res.json())
                 .then(cities => {
                     suggestionsBox.innerHTML = "";
+
                     if (cities.length === 0) {
                         inputWrapper.classList.remove("active");
                         return;
@@ -102,28 +120,19 @@
                 });
         });
 
-
-cityInput.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-        button.click();
-        suggestionsBox.innerHTML = "";
-        inputWrapper.classList.remove("active");
-    }
-});
-
-
-cityInput.addEventListener("blur", () => {
-    setTimeout(() => { 
-        suggestionsBox.innerHTML = "";
-        inputWrapper.classList.remove("active");
-    }, 100);
-});
-
-
-        cityInput.addEventListener("keydown", (event) => {
-            if (event.key === "Enter") {
-                button.click();
+        cityInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                loadWeather();
+                suggestionsBox.innerHTML = "";
+                inputWrapper.classList.remove("active");
             }
+        });
+
+        cityInput.addEventListener("blur", () => {
+            setTimeout(() => {
+                suggestionsBox.innerHTML = "";
+                inputWrapper.classList.remove("active");
+            }, 100);
         });
     </script>
 

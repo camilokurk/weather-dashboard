@@ -27,7 +27,10 @@ def weather():
     
     weather_url = (
         "https://api.open-meteo.com/v1/forecast"
-        f"?latitude={lat}&longitude={lon}&current_weather=true"
+        f"?latitude={lat}&longitude={lon}"
+        "&current_weather=true"
+        "&daily=temperature_2m_max,temperature_2m_min"
+        "&timezone=auto"
     )
 
     weather_response = requests.get(weather_url)

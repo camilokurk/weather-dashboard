@@ -3,138 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title>Weather Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="/static/css/base.css">
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/widgets.css">
+    <link rel="stylesheet" href="/static/css/ui.css">
+
 </head>
 <body>
 
-    <h1 id="title">Weather Dashboard</h1>
+    <div class="main">
 
-    <div class="app">
+        <aside id="config">
+            <button id="toggle.config" class="config-btn">☰</button>
+            
+            <div class="select-city">
 
-        <!-- TARJETA: SELECCIÓN DE CIUDAD -->
-        <div class="select-city size-2x1">
-
-            <div class="search">
-                <div class="input-wrapper">
-                    <input id="city" type="text" placeholder="Ciudad">
-                    <div id="suggestions" class="suggestions"></div>
+                <div class="search">
+                    <div class="input-wrapper">
+                        <input id="city" type="text" placeholder="Ciudad">
+                        <div id="suggestions" class="suggestions"></div>
+                    </div>
+                    <button id="load-weather">Buscar</button>
                 </div>
-                <button id="load-weather">Buscar</button>
+
+                <select id="unit">
+                    <option value="C">Celsius (°C)</option>
+                    <option value="F">Fahrenheit (°F)</option>
+                </select>
             </div>
 
-            <p id="temperature" class="result">
-                Ingrese una ciudad para ver el clima.
-            </p>
-        </div>
-
-        <!-- TARJETA: WIDGET TEMPERATURA -->
-        <div class="temperature">
-            <div class="widget">
-                <p class="value">--°</p>
-                <p class="emoji"></p>
-                <p class="range">
-                    <span class="max">Máx: -- °C</span>
-                    <span class="min">Mín: -- °C</span>
-                </p>
+            <div id="library">
+                {% include 'library.html' %}
             </div>
+        </aside>
+
+        <div class="widgets">
+            
         </div>
 
     </div>
 
-    <script>
-        const button = document.getElementById("load-weather");
-        const cityInput = document.getElementById("city");
-        const suggestionsBox = document.getElementById("suggestions");
-        const inputWrapper = document.querySelector(".input-wrapper");
-
-        const tempValue = document.querySelector(".value");
-        const tempEmoji = document.querySelector(".emoji");
-        const tempMax = document.querySelector(".max");
-        const tempMin = document.querySelector(".min");
-
-        function loadWeather() {
-            const city = cityInput.value;
-
-            fetch(`/weather?city=${encodeURIComponent(city)}`)
-                .then(res => res.json())
-                .then(data => {
-                    if (data.error) {
-                        tempValue.textContent = data.error;
-                        return;
-                    }
-
-                    const temp = data.current_weather.temperature;
-                    const max = data.daily.temperature_2m_max[0];
-                    const min = data.daily.temperature_2m_min[0];
-
-                    let emoji = "";
-                    if (temp > 25) emoji = "☀️";
-                    else if (temp < 18) emoji = "❄️";
-
-                    tempValue.textContent = `${temp}°`;
-                    tempEmoji.textContent = `${emoji}`;
-                    tempMax.textContent = `Máx: ${max}°`;
-                    tempMin.textContent = `Mín: ${min}°`;
-                })
-                .catch(() => {
-                    tempValue.textContent = "Error al cargar el clima";
-                });
-        }
-
-        button.addEventListener("click", loadWeather);
-
-        cityInput.addEventListener("input", () => {
-            const query = cityInput.value;
-
-            if (query.length < 2) {
-                suggestionsBox.innerHTML = "";
-                inputWrapper.classList.remove("active");
-                return;
-            }
-
-            fetch(`/cities?q=${encodeURIComponent(query)}`)
-                .then(res => res.json())
-                .then(cities => {
-                    suggestionsBox.innerHTML = "";
-
-                    if (cities.length === 0) {
-                        inputWrapper.classList.remove("active");
-                        return;
-                    }
-
-                    cities.forEach(city => {
-                        const div = document.createElement("div");
-                        div.className = "suggestion";
-                        div.textContent = `${city.name}, ${city.country}`;
-
-                        div.addEventListener("click", () => {
-                            cityInput.value = city.name;
-                            suggestionsBox.innerHTML = "";
-                            inputWrapper.classList.remove("active");
-                        });
-
-                        suggestionsBox.appendChild(div);
-                    });
-
-                    inputWrapper.classList.add("active");
-                });
-        });
-
-        cityInput.addEventListener("keydown", (e) => {
-            if (e.key === "Enter") {
-                loadWeather();
-                suggestionsBox.innerHTML = "";
-                inputWrapper.classList.remove("active");
-            }
-        });
-
-        cityInput.addEventListener("blur", () => {
-            setTimeout(() => {
-                suggestionsBox.innerHTML = "";
-                inputWrapper.classList.remove("active");
-            }, 100);
-        });
-    </script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
 </body>
 </html>

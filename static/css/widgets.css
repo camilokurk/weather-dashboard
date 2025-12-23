@@ -1,0 +1,62 @@
+/* WIDGET TEMPERATURA */
+#temperature {
+    background: white;
+    padding: 0.2rem;
+    border-radius: 20px;
+    border-color: black;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    grid-auto-columns: auto;
+    grid-auto-rows: auto;
+}
+
+#temperature .value {
+    font-size: 3rem;
+    margin: 0.5rem;
+    margin-left: 0rem;
+    justify-self: left;
+}
+
+.emoji {
+    font-size: 2rem;
+    margin: 0.5rem;
+    margin-left: 0rem;
+    justify-self: left;
+}
+
+.range {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    font-size: 1.2rem;
+}
+
+/* WIDGET PoP */
+#PoP {
+    background: white;
+    padding: 0.2rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    grid-auto-columns: auto;
+    grid-auto-rows: auto;
+}
+
+#prueba {
+    background: white;
+    padding: 0.2rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    grid-auto-columns: auto;
+    grid-auto-rows: auto;
+}

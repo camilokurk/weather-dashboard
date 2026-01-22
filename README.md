@@ -1,50 +1,53 @@
 # Weather Dashboard
 
-**Weather Dashboard** es una aplicación web diseñada para visualizar información climática en tiempo real de cualquier ciudad, utilizando **Python (Flask)** en el backend y **JavaScript** en el frontend.
+A Flask-based weather dashboard that fetches real-time weather data from the Open-Meteo API. The project implements a widget-based grid system with autocomplete city search and dynamic temperature unit conversion.
 
-> ⚠️ Esta aplicación se encuentra en desarrollo y algunas funcionalidades están en construcción.
+**This project is actively in development.**
 
----
+## Description
 
-## Objetivo
+Weather Dashboard pulls weather data for any city using Open-Meteo's geocoding and forecast APIs. The interface features a sliding sidebar configuration panel, city autocomplete search, and temperature conversion between Celsius and Fahrenheit. The widget system uses a custom grid allocation algorithm to place components of varying sizes on a responsive dashboard.
 
-- Integrar **APIs de geolocalización y clima** para obtener datos precisos.  
-- Permitir la selección dinámica de ciudades y mostrar información climática relevante.  
-- Construir la base de un **dashboard personalizable** con widgets configurables y datos interactivos.
+## Techniques
 
----
+- **[Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)** for asynchronous HTTP requests to backend endpoints
+- **[CSS Grid Layout](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout)** with `grid-template-columns` and dynamic column/row spanning for widget positioning
+- **[CSS Transitions](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_transitions)** for smooth panel slide-in/out animations
+- **[Linear Gradients](https://developer.mozilla.org/en-US/docs/Web/CSS/gradient/linear-gradient)** used for backgrounds and custom dropdown arrows
+- **Matrix-based collision detection** algorithm in JavaScript to manage widget placement without overlaps
+- **Debounced autocomplete** with minimum query length validation
+- **Event delegation** for dynamically generated suggestion elements
+- **Template inclusion** using Jinja2's `{% include %}` directive
 
-## Tecnologías
+## Technologies
 
-- **Backend:** Python + Flask  
-- **Frontend:** HTML, CSS y JavaScript  
-- **APIs:** Open-Meteo (clima y geocoding) 
+- **[Flask](https://flask.palletsprojects.com/)** - Python web framework
+- **[Open-Meteo API](https://open-meteo.com/)** - Free weather and geocoding API (no API key required)
+- **[Requests](https://requests.readthedocs.io/)** - HTTP library for Python
+- **System fonts** via `system-ui, -apple-system, BlinkMacSystemFont` font stack
 
----
+## Project Structure
 
-## Uso y ejecución
+```
+weather-dashboard/
+├── static/
+│   ├── css/
+│   └── js/
+├── templates/
+├── .gitignore
+├── app.py
+└── README.md
+```
 
-### Requisitos
-- Python 3.9 o superior
-- pip (administrador de paquetes de Python)
+- [`static/css/`](static/css/) - Modular stylesheets: base styles, layout grid definitions, UI components, and widget-specific styles
+- [`static/js/`](static/js/) - Grid allocation logic, weather data fetching, autocomplete functionality
+- [`templates/`](templates/) - Jinja2 HTML templates including the main dashboard and widget library
 
----
+## API Endpoints
 
-### Instalación
+The Flask backend exposes three routes:
 
-1. Clonar el repositorio:
-
-2. Instalar las dependencias necesarias: 
-
-   pip install flask requests
-
-### Ejecución
-
-1. Iniciar la aplicación:
-
-   python app.py
-
-2. Abrir un navegador y acceder a:
-
-   http://127.0.0.1:5000
+- `/weather?city=<name>` - Returns current weather and daily temperature range
+- `/cities?q=<query>` - Autocomplete endpoint returning matching cities (minimum 3 characters)
+- `/autocomplete?query=<text>` - Alternative autocomplete format returning formatted strings
 
